@@ -11,6 +11,8 @@
 #include "TextObject.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "Component.h"
+#include "RenderComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -84,14 +86,10 @@ void dae::Minigin::Run()
 		auto& timer = TimeManager::GetInstance();
 		
 		bool doContinue = true;
-		auto lastTime = high_resolution_clock::now();
 		float lag = 0.0f;
 		while (doContinue)
 		{
-		/*	const auto currentTime = high_resolution_clock::now();
-			const float deltaTime = duration<float>(currentTime - lastTime).count();
-			lastTime = currentTime;*/
-			
+			timer.CalculateDeltaTime();
 			lag += timer.GetDeltaTime();
 			doContinue = input.ProcessInput();
 			while(lag >= MsPerFrame)

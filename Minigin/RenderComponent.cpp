@@ -4,6 +4,10 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 using namespace dae;
+int dae::RenderComponent::GetComponentId() const
+{
+	return 0;
+}
 void RenderComponent::Render() const
 {
 

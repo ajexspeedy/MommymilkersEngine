@@ -9,7 +9,10 @@ namespace dae
 	{
 	public:
 
-		float GetDeltaTime();
+		void CalculateDeltaTime();
+		
+		float GetDeltaTime() const;
+		
 	
 	private:
 		friend class Singleton<TimeManager>;
@@ -18,7 +21,7 @@ namespace dae
 		using clock = std::chrono::steady_clock::time_point;
 		clock m_LastTime = std::chrono::high_resolution_clock::now(); // default value
 		clock m_CurrentTime = {};
-		
+		float m_DeltaTime = {};
 		
 	};
 }

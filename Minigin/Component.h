@@ -1,9 +1,19 @@
 ﻿#pragma once
 
-class Component
+namespace dae
 {
-public:
-	
-	
-	
-};
+	class Component
+	{
+	public:
+		
+
+		virtual int GetComponentId() const = 0;
+
+		Component() = default;
+		virtual ~Component() = default;
+		Component(const Component& other) = delete;
+		Component(Component&& other) = delete;
+		Component& operator=(const Component& other) = delete;
+		Component& operator=(Component&& other) = delete;
+	};
+}

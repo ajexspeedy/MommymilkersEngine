@@ -1,10 +1,15 @@
 ﻿#include "MiniginPCH.h"
 #include "TimeManager.h"
 
-float dae::TimeManager::GetDeltaTime()
+void dae::TimeManager::CalculateDeltaTime()
 {
 	m_CurrentTime = std::chrono::high_resolution_clock::now();
-	float deltaTime = std::chrono::duration<float>(m_CurrentTime - m_LastTime).count();
+	m_DeltaTime = std::chrono::duration<float>(m_CurrentTime - m_LastTime).count();
 	m_LastTime = m_CurrentTime;
-	return deltaTime;
+}
+
+float dae::TimeManager::GetDeltaTime() const
+{
+
+	return m_DeltaTime;
 }

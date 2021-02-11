@@ -1,13 +1,17 @@
 ﻿#pragma once
+#include "Component.h"
 #include "Transform.h"
+
 
 namespace dae
 {
 	class Texture2D;
-	class RenderComponent
+	class RenderComponent: public Component
 	{
 
 	public:
+
+		int GetComponentId() const override;
 		void Render() const;
 
 		void SetTexture(const std::string& filename);
