@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "TimeManager.h"
 #include <SDL.h>
 #include "TextObject.h"
 #include "GameObject.h"
@@ -80,18 +81,27 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-
+		auto& timer = TimeManager::GetInstance();
+		
 		bool doContinue = true;
+		auto lastTime = high_resolution_clock::now();
+		float lag = 0.0f;
 		while (doContinue)
 		{
-			const auto currentTime = high_resolution_clock::now();
+		/*	const auto currentTime = high_resolution_clock::now();
+			const float deltaTime = duration<float>(currentTime - lastTime).count();
+			lastTime = currentTime;*/
 			
+			lag += timer.GetDeltaTime();
 			doContinue = input.ProcessInput();
-			sceneManager.Update();
+			while(lag >= MsPerFrame)
+			{
+				sceneManager.Update();
+				lag -= MsPerFrame;
+			}
 			renderer.Render();
 			
-			auto sleepTime = duration_cast<duration<float>>(currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now());
-			this_thread::sleep_for(sleepTime);
+		
 		}
 	}
 

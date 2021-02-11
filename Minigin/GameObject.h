@@ -1,6 +1,7 @@
 #pragma once
-#include "Transform.h"
 #include "SceneObject.h"
+#include "RenderComponent.h"
+
 
 namespace dae
 {
@@ -22,6 +23,7 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		RenderComponent m_RenderComponent;
 		Transform m_Transform;
 		std::shared_ptr<Texture2D> m_Texture{};
 	};
