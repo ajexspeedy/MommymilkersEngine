@@ -93,13 +93,14 @@ void dae::Minigin::Run()
 		float lag = 0.0f;
 		while (doContinue)
 		{
+			
 			timer.CalculateDeltaTime();
 			lag += timer.GetDeltaTime();
 			doContinue = input.ProcessInput();
-			while(lag >= MsPerFrame)
+			while(lag >= m_MsPerFrame)
 			{
 				sceneManager.Update();
-				lag -= MsPerFrame;
+				lag -= m_MsPerFrame;
 			}
 			renderer.Render();
 			

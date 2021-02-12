@@ -14,7 +14,7 @@ namespace dae
 		RenderComponent(const std::string& filename, const float x = 0.f,const float y = 0.f);
 		int GetComponentId() const override;
 		void Render() const;
-		virtual void Update();
+		void Update() override;
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 	protected:

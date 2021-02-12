@@ -12,7 +12,7 @@ namespace dae
 	};
 
 	class Texture2D;
-	class GameObject
+	class GameObject final
 	{
 	public:
 		GameObject(Component* component,const std::string& objectName);
@@ -32,7 +32,7 @@ namespace dae
 		
 
 		GameObject() = default;
-		virtual ~GameObject();
+		virtual ~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -41,7 +41,8 @@ namespace dae
 	private:
 		std::map<size_t, Component*> m_pComponents = {};
 		std::string m_ObjectName{"Default"};
-		RenderComponent* GetRenderComponent(ComponentType type) const;
-		TextComponent* GetTextComponent(ComponentType type) const;
+		RenderComponent* GetRenderComponent() const;
+		TextComponent* GetTextComponent() const;
+		float m_FPSCooldown = 0.f;
 	};
 }

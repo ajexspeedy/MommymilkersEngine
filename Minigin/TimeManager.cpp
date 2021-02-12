@@ -6,6 +6,7 @@ void dae::TimeManager::CalculateDeltaTime()
 	m_CurrentTime = std::chrono::high_resolution_clock::now();
 	m_DeltaTime = std::chrono::duration<float>(m_CurrentTime - m_LastTime).count();
 	m_LastTime = m_CurrentTime;
+
 }
 
 float dae::TimeManager::GetDeltaTime() const

@@ -3,14 +3,6 @@
 #include "Renderer.h"
 #include "TimeManager.h"
 
-dae::GameObject::~GameObject()
-{
-	for (std::pair<size_t, Component*> component : m_pComponents)
-	{
-		delete component.second;
-		component.second = nullptr;
-	}
-}
 
 
 
@@ -31,30 +23,38 @@ dae::GameObject::GameObject(const std::map<size_t, Component*>& components, cons
 
 void dae::GameObject::Update()
 {
-	if (m_ObjectName == "FPS_Counter")
-		GetTextComponent(ComponentType::textComponent)->SetText("FPS: " + std::to_string(TimeManager::GetInstance().GetFPS()));
+	if (m_ObjectName == "FPS_Counter" && m_FPSCooldown <= 0.f)
+	{
+		GetTextComponent()->SetText("FPS: " + std::to_string(int(TimeManager::GetInstance().GetFPS())));
+		m_FPSCooldown = 1.f;
+	}
+	m_FPSCooldown -= TimeManager::GetInstance().GetDeltaTime();
 	UpdateComponents();
 }
 
 void dae::GameObject::Render() const
 {
-	//TODO check if component is present
-	GetRenderComponent(ComponentType::renderComponent)->Render();
 
+	if(m_pComponents.find(size_t(ComponentType::renderComponent)) != m_pComponents.end())
+		GetRenderComponent()->Render();
+	if(m_pComponents.find(size_t(ComponentType::textComponent)) != m_pComponents.end())
+		GetTextComponent()->Render();
 
 }
 
 void dae::GameObject::SetTexture(const std::string& filename)
 {
-
-	GetRenderComponent(ComponentType::renderComponent)->SetTexture(filename);
+	if (m_pComponents.find(size_t(ComponentType::renderComponent)) != m_pComponents.end())
+		GetRenderComponent()->SetTexture(filename);
 
 }
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	GetRenderComponent(ComponentType::renderComponent)->SetPosition(x, y);
-
+	if (m_pComponents.find(size_t(ComponentType::renderComponent)) != m_pComponents.end())
+		GetRenderComponent()->SetPosition(x, y);
+	if (m_pComponents.find(size_t(ComponentType::textComponent)) != m_pComponents.end())
+		GetTextComponent()->SetPosition(x, y);
 }
 
 void dae::GameObject::SetObjectName(const std::string& name)
@@ -91,13 +91,13 @@ std::string dae::GameObject::GetObjectName() const
 }
 
 
-dae::RenderComponent* dae::GameObject::GetRenderComponent(ComponentType type) const
+dae::RenderComponent* dae::GameObject::GetRenderComponent() const
 {
 
-	return dynamic_cast<RenderComponent*>(m_pComponents.at(size_t(type)));
+	return dynamic_cast<RenderComponent*>(m_pComponents.at(size_t(ComponentType::renderComponent)));
 }
 
-dae::TextComponent* dae::GameObject::GetTextComponent(ComponentType type) const
+dae::TextComponent* dae::GameObject::GetTextComponent() const
 {
-	return  dynamic_cast<TextComponent*>(m_pComponents.at(size_t(type)));
+	return  dynamic_cast<TextComponent*>(m_pComponents.at(size_t(ComponentType::textComponent)));
 }

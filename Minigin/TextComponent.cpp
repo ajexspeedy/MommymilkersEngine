@@ -26,10 +26,27 @@ void dae::TextComponent::Update()
 	UpdateTexture();
 }
 
+void dae::TextComponent::Render() const
+{
+	if (m_Texture != nullptr)
+	{
+		const auto pos = m_Transform.GetPosition();
+		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
+	}
+}
+
 void dae::TextComponent::SetText(const std::string& text)
 {
-	m_Text = text;
-	m_NeedsUpdate = true;
+	if (text != m_Text)
+	{
+		m_Text = text;
+		m_NeedsUpdate = true;
+	}
+}
+
+void dae::TextComponent::SetPosition(float x, float y)
+{
+	m_Transform.SetPosition(x, y, 0.0f);
 }
 
 void dae::TextComponent::UpdateTexture()
