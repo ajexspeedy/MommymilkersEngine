@@ -50,19 +50,19 @@ void dae::Minigin::LoadGame() const
 
 	RenderComponent render_component{"background.jpg"};
 
-	auto game_object1 = new GameObject(new RenderComponent("background.jpg"));
+	auto game_object1 = new GameObject(new RenderComponent("background.jpg"),"Background");
 	scene.Add(game_object1);
 
-	auto game_object2 = new GameObject(new RenderComponent("logo.png", 216.f, 180.f));
+	auto game_object2 = new GameObject(new RenderComponent("logo.png", 216.f, 180.f),"Logo");
 	scene.Add(game_object2);
 
 	const auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto text_object = new GameObject(new TextComponent("Programming 4 Assignment", font));
+	auto text_object = new GameObject(new TextComponent("Programming 4 Assignment", font),"Text");
 	text_object->SetPosition(80, 50);
 	scene.Add(text_object);
 
-//	const auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto fps_counter = new GameObject(new TextComponent("FPS: 0",font));
+	const auto fps_font = ResourceManager::GetInstance().LoadFont("Comic_Sans.otf", 18);
+	auto fps_counter = new GameObject(new TextComponent("FPS: 0", fps_font),"FPS_Counter");
 	scene.Add(fps_counter);
 }
 

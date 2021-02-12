@@ -22,6 +22,8 @@ void Scene::Update()
 {
 	for(auto& object : m_pObjects)
 	{
+		if(object->GetObjectName() == "FPS_Counter")
+			
 		object->Update();
 	}
 }

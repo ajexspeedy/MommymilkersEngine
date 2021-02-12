@@ -1,31 +1,34 @@
 #pragma once
 #include "SceneObject.h"
 #include "RenderComponent.h"
+#include "TextComponent.h"
 #include <map>
 
 namespace dae
 {
 	enum class ComponentType
 	{
-		renderComponent
+		renderComponent, textComponent
 	};
 
 	class Texture2D;
 	class GameObject
 	{
 	public:
-		GameObject(Component* component);
-		GameObject(const std::map<size_t,Component*>& components);
+		GameObject(Component* component,const std::string& objectName);
+		GameObject(const std::map<size_t,Component*>& components, const std::string& objectName);
 		
 		void Update();
 		void Render()const;
 
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
+		void SetObjectName(const std::string& name);
 
 		bool AddComponent(Component& component);
 		void UpdateComponents();
-
+		std::string GetObjectName() const;
+		
 		
 
 		GameObject() = default;
@@ -37,10 +40,8 @@ namespace dae
 
 	private:
 		std::map<size_t, Component*> m_pComponents = {};
-		RenderComponent m_RenderComponent;
-		Transform m_Transform;
-		std::shared_ptr<Texture2D> m_Texture{};
-
-		RenderComponent* GetRenderComponent(ComponentType type);
+		std::string m_ObjectName{"Default"};
+		RenderComponent* GetRenderComponent(ComponentType type) const;
+		TextComponent* GetTextComponent(ComponentType type) const;
 	};
 }

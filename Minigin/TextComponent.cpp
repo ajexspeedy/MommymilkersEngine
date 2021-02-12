@@ -17,11 +17,12 @@ dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr
 
 int dae::TextComponent::GetComponentId() const
 {
-	return RenderComponent::GetComponentId();
+	return 1;
 }
 
 void dae::TextComponent::Update()
 {
+
 	UpdateTexture();
 }
 
