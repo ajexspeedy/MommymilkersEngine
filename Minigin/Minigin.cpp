@@ -49,23 +49,21 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	RenderComponent render_component{"background.jpg"};
-	
-	auto go = std::make_unique<GameObject>(render_component);
-	// go->SetTexture("background.jpg");
-	scene.Add(go);
 
-	RenderComponent logo_component{"logo.png",216.f,180.f};
-	go = std::make_unique<GameObject>();
-	//go->SetTexture("logo.png");
-	// go->SetPosition(216, 180);
-	scene.Add(go);
+	auto game_object1 = new GameObject(new RenderComponent("background.jpg"));
+	scene.Add(game_object1);
 
-	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	//// auto to = std::make_unique<TextObject>("Programming 4 Assignment", font);
-	//TextComponent text_component{"Programming 4 Assignment",font};
-	//auto to = std::make_unique<GameObject>(text_component);
-	//to->SetPosition(80, 20);
-	//scene.Add(to);
+	auto game_object2 = new GameObject(new RenderComponent("logo.png", 216.f, 180.f));
+	scene.Add(game_object2);
+
+	const auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto text_object = new GameObject(new TextComponent("Programming 4 Assignment", font));
+	text_object->SetPosition(80, 50);
+	scene.Add(text_object);
+
+//	const auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto fps_counter = new GameObject(new TextComponent("FPS: 0",font));
+	scene.Add(fps_counter);
 }
 
 void dae::Minigin::Cleanup()

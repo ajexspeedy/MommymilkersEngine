@@ -12,14 +12,15 @@ Scene::~Scene() = default;
 
 
 
-void dae::Scene::Add(const std::unique_ptr<GameObject>& object)
+
+void dae::Scene::Add(GameObject* object)
 {
-	m_Objects.push_back(object);
+	m_pObjects.push_back(object);
 }
 
 void Scene::Update()
 {
-	for(auto& object : m_Objects)
+	for(auto& object : m_pObjects)
 	{
 		object->Update();
 	}
@@ -27,7 +28,7 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	for (const auto& object : m_Objects)
+	for (const auto& object : m_pObjects)
 	{
 		object->Render();
 	}

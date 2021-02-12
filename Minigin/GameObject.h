@@ -9,11 +9,12 @@ namespace dae
 	{
 		renderComponent
 	};
+
 	class Texture2D;
 	class GameObject
 	{
 	public:
-		GameObject(Component& component);
+		GameObject(Component* component);
 		GameObject(const std::map<size_t,Component*>& components);
 		
 		void Update();
@@ -23,6 +24,8 @@ namespace dae
 		void SetPosition(float x, float y);
 
 		bool AddComponent(Component& component);
+		void UpdateComponents();
+
 		
 
 		GameObject() = default;
@@ -37,5 +40,7 @@ namespace dae
 		RenderComponent m_RenderComponent;
 		Transform m_Transform;
 		std::shared_ptr<Texture2D> m_Texture{};
+
+		RenderComponent* GetRenderComponent(ComponentType type);
 	};
 }

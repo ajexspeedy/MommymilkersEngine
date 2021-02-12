@@ -13,3 +13,8 @@ float dae::TimeManager::GetDeltaTime() const
 
 	return m_DeltaTime;
 }
+
+float dae::TimeManager::GetFPS() const
+{
+	return 1.f / m_DeltaTime;
+}

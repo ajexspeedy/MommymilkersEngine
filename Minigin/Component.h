@@ -8,6 +8,7 @@ namespace dae
 		
 
 		virtual int GetComponentId() const = 0;
+		virtual void Update() = 0;
 
 		Component() = default;
 		virtual ~Component() = default;

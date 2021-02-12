@@ -1,16 +1,25 @@
 #include "MiniginPCH.h"
 #include "GameObject.h"
-#include "TimeManager.h"
 #include "Renderer.h"
+#include "TimeManager.h"
 
-dae::GameObject::~GameObject() = default;
-
-dae::GameObject::GameObject(Component & component)
+dae::GameObject::~GameObject()
 {
-	AddComponent(component);
+	for (std::pair<size_t, Component*> component : m_pComponents)
+	{
+		delete component.second;
+		component.second = nullptr;
+	}
 }
 
-dae::GameObject::GameObject(const std::map<size_t, Component*>&components) :
+
+
+dae::GameObject::GameObject(Component* component)
+{
+	AddComponent(*component);
+}
+
+dae::GameObject::GameObject(const std::map<size_t, Component*>& components) :
 	GameObject()
 {
 	for (std::pair<size_t, Component*> component : components)
@@ -19,42 +28,38 @@ dae::GameObject::GameObject(const std::map<size_t, Component*>&components) :
 	}
 }
 
-void dae::GameObject::Update() {}
+void dae::GameObject::Update()
+{
+
+}
 
 void dae::GameObject::Render() const
 {
 	if (m_pComponents.size() > 0)
 	{
-		/*ComponentType componentType = ComponentType::renderComponent;
+		ComponentType componentType = ComponentType::renderComponent;
 		const size_t keyValue = size_t(componentType);
 		auto renderComponent = dynamic_cast<RenderComponent*>(m_pComponents.find(keyValue)->second);
-		*/
+		renderComponent->Render();
 
 	}
 	m_RenderComponent.Render();
 }
 
-void dae::GameObject::SetTexture(const std::string & filename)
+void dae::GameObject::SetTexture(const std::string& filename)
 {
-	// TODO call rendercomponent functions via component*
-	if (m_pComponents.size() > 0)
-	{
-		ComponentType componentType = ComponentType::renderComponent;
-		auto* renderComponent = dynamic_cast<RenderComponent*>(m_pComponents[int(componentType)]);
-		renderComponent->SetTexture(filename);
-
-	}
-	m_RenderComponent.SetTexture(filename);
+	
+	GetRenderComponent(ComponentType::renderComponent)->SetTexture(filename);
 
 }
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	m_RenderComponent.SetPosition(x, y);
+	GetRenderComponent(ComponentType::renderComponent)->SetPosition(x, y);
 
 }
 
-bool dae::GameObject::AddComponent(Component & component)
+bool dae::GameObject::AddComponent(Component& component)
 {
 	for (size_t index{ 0 }; index < m_pComponents.size(); index++)
 	{
@@ -69,4 +74,16 @@ bool dae::GameObject::AddComponent(Component & component)
 	return true;
 }
 
+void dae::GameObject::UpdateComponents()
+{
+	for (auto& component : m_pComponents)
+	{
+		component.second->Update();
+	}
+}
 
+
+dae::RenderComponent* dae::GameObject::GetRenderComponent(ComponentType type)
+{
+	return dynamic_cast<RenderComponent*>(m_pComponents[int(type)]);
+}

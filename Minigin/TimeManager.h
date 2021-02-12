@@ -12,6 +12,7 @@ namespace dae
 		void CalculateDeltaTime();
 		
 		float GetDeltaTime() const;
+		float GetFPS() const;
 		
 	
 	private:

@@ -12,7 +12,7 @@ dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr
 	m_Text{ text },
 	m_Font{ font }
 {
-
+	UpdateTexture();
 }
 
 int dae::TextComponent::GetComponentId() const
@@ -21,6 +21,17 @@ int dae::TextComponent::GetComponentId() const
 }
 
 void dae::TextComponent::Update()
+{
+	UpdateTexture();
+}
+
+void dae::TextComponent::SetText(const std::string& text)
+{
+	m_Text = text;
+	m_NeedsUpdate = true;
+}
+
+void dae::TextComponent::UpdateTexture()
 {
 	if (m_NeedsUpdate)
 	{
@@ -39,10 +50,4 @@ void dae::TextComponent::Update()
 		m_Texture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
-}
-
-void dae::TextComponent::SetText(const std::string& text)
-{
-	m_Text = text;
-	m_NeedsUpdate = true;
 }
