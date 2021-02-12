@@ -10,13 +10,14 @@ namespace dae
 	{
 
 	public:
-
+		RenderComponent() = default;
+		RenderComponent(const std::string& filename, const float x = 0.f,const float y = 0.f);
 		int GetComponentId() const override;
 		void Render() const;
-
+		virtual void Update();
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
-	private:
+	protected:
 
 		Transform m_Transform;
 		std::shared_ptr<Texture2D> m_Texture{};

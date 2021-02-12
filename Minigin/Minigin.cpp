@@ -13,6 +13,7 @@
 #include "Scene.h"
 #include "Component.h"
 #include "RenderComponent.h"
+#include "TextComponent.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -47,19 +48,24 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
+	RenderComponent render_component{"background.jpg"};
+	
+	auto go = std::make_unique<GameObject>(render_component);
+	// go->SetTexture("background.jpg");
 	scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
+	RenderComponent logo_component{"logo.png",216.f,180.f};
+	go = std::make_unique<GameObject>();
+	//go->SetTexture("logo.png");
+	// go->SetPosition(216, 180);
 	scene.Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	scene.Add(to);
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//// auto to = std::make_unique<TextObject>("Programming 4 Assignment", font);
+	//TextComponent text_component{"Programming 4 Assignment",font};
+	//auto to = std::make_unique<GameObject>(text_component);
+	//to->SetPosition(80, 20);
+	//scene.Add(to);
 }
 
 void dae::Minigin::Cleanup()

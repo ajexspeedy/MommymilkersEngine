@@ -5,6 +5,11 @@
 
 dae::GameObject::~GameObject() = default;
 
+dae::GameObject::GameObject(Component & component)
+{
+	AddComponent(component);
+}
+
 dae::GameObject::GameObject(const std::map<size_t, Component*>&components) :
 	GameObject()
 {
@@ -18,15 +23,27 @@ void dae::GameObject::Update() {}
 
 void dae::GameObject::Render() const
 {
+	if (m_pComponents.size() > 0)
+	{
+		/*ComponentType componentType = ComponentType::renderComponent;
+		const size_t keyValue = size_t(componentType);
+		auto renderComponent = dynamic_cast<RenderComponent*>(m_pComponents.find(keyValue)->second);
+		*/
+
+	}
 	m_RenderComponent.Render();
 }
 
 void dae::GameObject::SetTexture(const std::string & filename)
 {
-	//TODO call rendercomponent functions via component*
-	// ComponentType componentType = ComponentType::renderComponent;
-	/*auto * renderComponent = dynamic_cast<RenderComponent*>(m_pComponents[int(componentType)] );
-	renderComponent->SetTexture(filename);*/
+	// TODO call rendercomponent functions via component*
+	if (m_pComponents.size() > 0)
+	{
+		ComponentType componentType = ComponentType::renderComponent;
+		auto* renderComponent = dynamic_cast<RenderComponent*>(m_pComponents[int(componentType)]);
+		renderComponent->SetTexture(filename);
+
+	}
 	m_RenderComponent.SetTexture(filename);
 
 }

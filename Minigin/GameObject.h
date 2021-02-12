@@ -10,13 +10,14 @@ namespace dae
 		renderComponent
 	};
 	class Texture2D;
-	class GameObject : public SceneObject
+	class GameObject
 	{
 	public:
+		GameObject(Component& component);
 		GameObject(const std::map<size_t,Component*>& components);
 		
-		void Update() override;
-		void Render() const override;
+		void Update();
+		void Render()const;
 
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
