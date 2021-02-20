@@ -2,7 +2,7 @@
 #include "SceneObject.h"
 #include "RenderComponent.h"
 #include "TextComponent.h"
-#include <map>
+#include <vector>
 
 namespace dae
 {
@@ -16,7 +16,7 @@ namespace dae
 	{
 	public:
 		GameObject(Component* component,const std::string& objectName);
-		GameObject(const std::map<size_t,Component*>& components, const std::string& objectName);
+		
 		
 		void Update();
 		void Render()const;
@@ -25,21 +25,21 @@ namespace dae
 		void SetPosition(float x, float y);
 		void SetObjectName(const std::string& name);
 
-		bool AddComponent(Component& component);
+		bool AddComponent(Component* component);
 		void UpdateComponents();
 		std::string GetObjectName() const;
 		
 		
 
 		GameObject() = default;
-		virtual ~GameObject() = default;
+		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		std::map<size_t, Component*> m_pComponents = {};
+		std::vector<Component*> m_pComponents = {};
 		std::string m_ObjectName{"Default"};
 		RenderComponent* GetRenderComponent() const;
 		TextComponent* GetTextComponent() const;

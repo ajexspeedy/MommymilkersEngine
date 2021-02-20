@@ -14,17 +14,17 @@
 #include "Component.h"
 #include "RenderComponent.h"
 #include "TextComponent.h"
+#include "FPSComponent.h"
 
 using namespace std;
 using namespace std::chrono;
 
 void dae::Minigin::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
-
 	m_Window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -62,7 +62,7 @@ void dae::Minigin::LoadGame() const
 	scene.Add(text_object);
 
 	const auto fps_font = ResourceManager::GetInstance().LoadFont("Comic_Sans.otf", 18);
-	auto fps_counter = new GameObject(new TextComponent("FPS: 0", fps_font),"FPS_Counter");
+	auto fps_counter = new GameObject(new FPSComponent("FPS: 0", fps_font),"FPS_Counter");
 	scene.Add(fps_counter);
 }
 
